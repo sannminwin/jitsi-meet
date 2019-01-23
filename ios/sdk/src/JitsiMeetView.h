@@ -42,10 +42,7 @@
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options;
 
-+ (BOOL)application:(UIApplication * _Nonnull)application
-            openURL:(NSURL * _Nonnull)URL
-  sourceApplication:(NSString * _Nullable)sourceApplication
-         annotation:(id _Nullable)annotation __deprecated;
++ (NSDictionary *)conferenceURLFromLaunchOptions:(NSDictionary *)launchOptions;
 
 - (void)loadURL:(NSURL * _Nullable)url;
 

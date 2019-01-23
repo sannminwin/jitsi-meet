@@ -18,6 +18,7 @@
 #import "AppDelegate.h"
 #import "FIRUtilities.h"
 #import "Types.h"
+#import "ViewController.h"
 
 #import <JitsiMeet/JitsiMeet.h>
 
@@ -42,8 +43,13 @@
     // This cannot be defined by the SDK.
     JitsiMeetView.conferenceActivityType = JitsiMeetConferenceActivityType;
 
-    return [JitsiMeetView application:application
-        didFinishLaunchingWithOptions:launchOptions];
+    [JitsiMeetView application:application didFinishLaunchingWithOptions:launchOptions];
+
+    // Get the initial URL and load it.
+    ViewController *viewController = (ViewController *)self.window.rootViewController;
+    viewController.initialURL = [JitsiMeetView conferenceURLFromLaunchOptions:launchOptions];
+
+    return YES;
 }
 
 #pragma mark Linking delegate methods

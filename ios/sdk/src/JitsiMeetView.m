@@ -93,13 +93,6 @@ static NSString *_conferenceActivityType;
 static RCTBridgeWrapper *bridgeWrapper;
 
 /**
- * Copy of the `launchOptions` dictionary that the application was started with.
- * It is required for the initial URL to be used if a (Universal) link was used
- * to launch a new instance of the application.
- */
-static NSDictionary *_launchOptions;
-
-/**
  * The `JitsiMeetView`s associated with their `ExternalAPI` scopes (i.e. unique
  * identifiers within the process).
  */
@@ -107,36 +100,20 @@ static NSMapTable<NSString *, JitsiMeetView *> *views;
 
 +             (BOOL)application:(UIApplication *)application
   didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Store launch options, will be used when we create the bridge.
-    _launchOptions = [launchOptions copy];
-
     [Dropbox setAppKey];
 
     return YES;
 }
 
 #pragma mark Linking delegate helpers
-// https://facebook.github.io/react-native/docs/linking.html
 
 +    (BOOL)application:(UIApplication *)application
   continueUserActivity:(NSUserActivity *)userActivity
     restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler
 {
-    // XXX At least twice we received bug reports about malfunctioning loadURL
-    // in the Jitsi Meet SDK while the Jitsi Meet app seemed to functioning as
-    // expected in our testing. But that was to be expected because the app does
-    // not exercise loadURL. In order to increase the test coverage of loadURL,
-    // channel Universal linking through loadURL.
-
     id url = [self conferenceURLFromUserActivity:userActivity];
 
-    if (url && [self loadURLObjectInViews:url]) {
-        return YES;
-    }
-
-    return [RCTLinkingManager application:application
-                     continueUserActivity:userActivity
-                       restorationHandler:restorationHandler];
+    return url && [self loadURLObjectInViews:url];
 }
 
 + (BOOL)application:(UIApplication *)app
@@ -153,23 +130,7 @@ static NSMapTable<NSString *, JitsiMeetView *> *views;
         return YES;
     }
 
-    // XXX At least twice we received bug reports about malfunctioning loadURL
-    // in the Jitsi Meet SDK while the Jitsi Meet app seemed to functioning as
-    // expected in our testing. But that was to be expected because the app does
-    // not exercise loadURL. In order to increase the test coverage of loadURL,
-    // channel Universal linking through loadURL.
-    if ([self loadURLInViews:url]) {
-        return YES;
-    }
-
-    return [RCTLinkingManager application:app openURL:url options:options];
-}
-
-+ (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
-    return [self application:application openURL:url options:@{}];
+    return [self loadURLInViews:url];
 }
 
 #pragma mark Initializers
@@ -347,6 +308,23 @@ static NSMapTable<NSString *, JitsiMeetView *> *views;
     return handled;
 }
 
++ (NSDictionary *)conferenceURLFromLaunchOptions:(NSDictionary *)launchOptions {
+    if (launchOptions[UIApplicationLaunchOptionsURLKey]) {
+        NSURL *url = launchOptions[UIApplicationLaunchOptionsURLKey];
+        return @{ @"url" : url.absoluteString };
+    } else {
+        NSDictionary *userActivityDictionary
+            = launchOptions[UIApplicationLaunchOptionsUserActivityDictionaryKey];
+        NSUserActivity *userActivity
+            = [userActivityDictionary objectForKey:@"UIApplicationLaunchOptionsUserActivityKey"];
+        if (userActivity != nil) {
+            return [self conferenceURLFromUserActivity:userActivity];
+        }
+    }
+
+    return nil;
+}
+
 + (NSDictionary *)conferenceURLFromUserActivity:(NSUserActivity *)userActivity {
     NSString *activityType = userActivity.activityType;
 
@@ -403,8 +381,7 @@ static NSMapTable<NSString *, JitsiMeetView *> *views;
 
     dispatch_once(&dispatchOncePredicate, ^{
         // Initialize the static state of JitsiMeetView.
-        bridgeWrapper
-            = [[RCTBridgeWrapper alloc] initWithLaunchOptions:_launchOptions];
+        bridgeWrapper = [[RCTBridgeWrapper alloc] init];
         views = [NSMapTable strongToWeakObjectsMapTable];
 
         // Register a fatal error handler for React.

@@ -13,7 +13,6 @@
 		0B44A0191F902126009D1D64 /* MPVolumeViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B44A0181F902126009D1D64 /* MPVolumeViewManager.m */; };
 		0B49424520AD8DBD00BD2DE0 /* outgoingStart.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B49424320AD8DBD00BD2DE0 /* outgoingStart.wav */; };
 		0B49424620AD8DBD00BD2DE0 /* outgoingRinging.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0B49424420AD8DBD00BD2DE0 /* outgoingRinging.wav */; };
-		0B7C2CFD200F51D60060D076 /* LaunchOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7C2CFC200F51D60060D076 /* LaunchOptions.m */; };
 		0B93EF7E1EC9DDCD0030D24D /* RCTBridgeWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B93EF7C1EC9DDCD0030D24D /* RCTBridgeWrapper.h */; };
 		0B93EF7F1EC9DDCD0030D24D /* RCTBridgeWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B93EF7D1EC9DDCD0030D24D /* RCTBridgeWrapper.m */; };
 		0BA13D311EE83FF8007BEF7F /* ExternalAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA13D301EE83FF8007BEF7F /* ExternalAPI.m */; };
@@ -54,7 +53,6 @@
 		0B44A0181F902126009D1D64 /* MPVolumeViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPVolumeViewManager.m; sourceTree = "<group>"; };
 		0B49424320AD8DBD00BD2DE0 /* outgoingStart.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = outgoingStart.wav; path = ../../sounds/outgoingStart.wav; sourceTree = "<group>"; };
 		0B49424420AD8DBD00BD2DE0 /* outgoingRinging.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = outgoingRinging.wav; path = ../../sounds/outgoingRinging.wav; sourceTree = "<group>"; };
-		0B7C2CFC200F51D60060D076 /* LaunchOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LaunchOptions.m; sourceTree = "<group>"; };
 		0B93EF7A1EC608550030D24D /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		0B93EF7C1EC9DDCD0030D24D /* RCTBridgeWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTBridgeWrapper.h; sourceTree = "<group>"; };
 		0B93EF7D1EC9DDCD0030D24D /* RCTBridgeWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTBridgeWrapper.m; sourceTree = "<group>"; };
@@ -159,7 +157,6 @@
 				0B412F171EDEC65D00B1A0A6 /* JitsiMeetView.m */,
 				C6F99C13204DB63D0001F710 /* JitsiMeetView+Private.h */,
 				0B412F1B1EDEC80100B1A0A6 /* JitsiMeetViewDelegate.h */,
-				0B7C2CFC200F51D60060D076 /* LaunchOptions.m */,
 				DEFC743D21B178FA00E4DD96 /* LocaleDetector.m */,
 				0B44A0181F902126009D1D64 /* MPVolumeViewManager.m */,
 				C6A3426B204F127900E062DD /* picture-in-picture */,
@@ -427,7 +424,6 @@
 				0B93EF7F1EC9DDCD0030D24D /* RCTBridgeWrapper.m in Sources */,
 				0BA13D311EE83FF8007BEF7F /* ExternalAPI.m in Sources */,
 				0BCA49601EC4B6C600B793EE /* POSIX.m in Sources */,
-				0B7C2CFD200F51D60060D076 /* LaunchOptions.m in Sources */,
 				C6CC49AF207412CF000DFA42 /* PiPViewCoordinator.swift in Sources */,
 				DEFC743F21B178FA00E4DD96 /* LocaleDetector.m in Sources */,
 				0BCA495F1EC4B6C600B793EE /* AudioMode.m in Sources */,

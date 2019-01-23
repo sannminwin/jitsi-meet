@@ -20,4 +20,6 @@
 
 @interface ViewController : UIViewController<JitsiMeetViewDelegate>
 
+@property (nonatomic, copy) NSDictionary *initialURL;
+
 @end

@@ -42,10 +42,8 @@
     // anyway.
     view.welcomePageEnabled = YES;
 
-    [view loadURL:nil];
+    [view loadURLObject:self.initialURL];
 }
-
-
 
 // JitsiMeetViewDelegate
 
