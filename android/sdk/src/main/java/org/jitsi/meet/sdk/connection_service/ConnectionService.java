@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.telecom.CallAudioState;
 import android.telecom.Connection;
 import android.telecom.ConnectionRequest;
 import android.telecom.PhoneAccount;
@@ -52,6 +53,11 @@ public class ConnectionService extends android.telecom.ConnectionService {
             request.getAddress(),
             TelecomManager.PRESENTATION_ALLOWED);
         connection.setExtras(request.getExtras());
+        // NOTE there's a time gap between the placeCall and this callback when
+        // things could get out of sync, but they are put back in sync once
+        // the startCall Promise is resolved below. That's because on
+        // the JavaScript side there's a logic to sync up in .then() callback.
+        connection.setVideoState(request.getVideoState());
 
         Bundle moreExtras = new Bundle();
 
