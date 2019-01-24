@@ -18,6 +18,8 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 
+import java.util.*;
+
 /**
  * The react-native side of Jitsi Meet's {@link ConnectionService}. Exposes
  * the Java Script API.
@@ -149,5 +151,17 @@ public class RNConnectionService
         ConnectionList
             .getInstance()
             .updateCall(callUUID, callState);
+    }
+
+    static public boolean isAudioRouteConfigurable() {
+        return ConnectionList.getInstance().size() > 0;
+    }
+
+    static public void setAudioRoute(int audioRoute) {
+        List<ConnectionImpl> connections
+            = ConnectionList.getInstance().getAll();
+        for (ConnectionImpl c : connections) {
+            c.setAudioRoute(audioRoute);
+        }
     }
 }

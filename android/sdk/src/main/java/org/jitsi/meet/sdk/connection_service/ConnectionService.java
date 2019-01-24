@@ -48,6 +48,11 @@ public class ConnectionService extends android.telecom.ConnectionService {
             PhoneAccountHandle accountHandle, ConnectionRequest request) {
         ConnectionImpl connection = new ConnectionImpl(this);
 
+        // FIXME use this to query for the supported devices
+        // CallAudioState audioState = connection.getCallAudioState();
+        // It also supports listing BT devices, but not sure how to select one ?
+        // audioState.getSupportedBluetoothDevices()
+
         connection.setConnectionProperties(Connection.PROPERTY_SELF_MANAGED);
         connection.setAddress(
             request.getAddress(),

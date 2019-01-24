@@ -25,6 +25,7 @@ import android.content.pm.PackageManager;
 import android.media.AudioDeviceInfo;
 import android.media.AudioManager;
 import android.os.Build;
+import android.telecom.*;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
@@ -34,6 +35,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
+import org.jitsi.meet.sdk.connection_service.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -556,7 +558,8 @@ class AudioModeModule
         audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
         audioManager.setMicrophoneMute(false);
 
-        if (audioManager.requestAudioFocus(
+        if (!RNConnectionService.isAudioRouteConfigurable()
+                && audioManager.requestAudioFocus(
                     this,
                     AudioManager.STREAM_VOICE_CALL,
                     AudioManager.AUDIOFOCUS_GAIN)
@@ -596,11 +599,33 @@ class AudioModeModule
         selectedDevice = audioDevice;
         Log.d(TAG, "Selected audio device: " + audioDevice);
 
-        // Turn bluetooth on / off
-        setBluetoothAudioRoute(audioDevice.equals(DEVICE_BLUETOOTH));
+        if (RNConnectionService.isAudioRouteConfigurable()) {
+            int audioRoute = -1;
+            switch (selectedDevice) {
+            case DEVICE_BLUETOOTH:
+                audioRoute = CallAudioState.ROUTE_BLUETOOTH;
+                break;
+            case DEVICE_EARPIECE:
+                audioRoute = CallAudioState.ROUTE_EARPIECE;
+                break;
+            case DEVICE_HEADPHONES:
+                audioRoute = CallAudioState.ROUTE_WIRED_HEADSET;
+                break;
+            case DEVICE_SPEAKER:
+                audioRoute = CallAudioState.ROUTE_SPEAKER;
+                break;
+            default:
+                audioRoute = CallAudioState.ROUTE_EARPIECE;
+                break;
+            }
+            RNConnectionService.setAudioRoute(audioRoute);
+        } else {
+            // Turn bluetooth on / off
+            setBluetoothAudioRoute(audioDevice.equals(DEVICE_BLUETOOTH));
 
-        // Turn speaker on / off
-        audioManager.setSpeakerphoneOn(audioDevice.equals(DEVICE_SPEAKER));
+            // Turn speaker on / off
+            audioManager.setSpeakerphoneOn(audioDevice.equals(DEVICE_SPEAKER));
+        }
 
         return true;
     }

@@ -2,13 +2,14 @@ package org.jitsi.meet.sdk.connection_service;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.telecom.Connection;
-import android.telecom.PhoneAccountHandle;
-import android.telecom.TelecomManager;
+import android.telecom.*;
 
+import android.util.*;
 import com.facebook.react.bridge.WritableNativeMap;
 
 import org.jitsi.meet.sdk.ReactContextUtils;
+
+import static org.jitsi.meet.sdk.connection_service.ConnectionService.TAG;
 
 /**
  * Connection implementation for Jitsi Meet's {@link ConnectionService}.
@@ -59,6 +60,13 @@ public class ConnectionImpl extends Connection {
                 null,
                 "org.jitsi.meet:features/connection_service#abort",
                 data);
+    }
+
+    @Override
+    public void onCallAudioStateChanged(CallAudioState state)
+    {
+        // FIXME update 'selectedDevice' in the AudioMode module
+        Log.i(TAG, "onCallAudioStateChanged: " + state);
     }
 
     /**

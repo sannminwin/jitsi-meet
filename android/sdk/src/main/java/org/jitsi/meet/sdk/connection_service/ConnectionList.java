@@ -9,8 +9,7 @@ import android.util.Log;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReadableMap;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This holds all connections created by the {@link ConnectionService}. It
@@ -155,5 +154,15 @@ public class ConnectionList {
         } else {
             Log.e(TAG, "updateCall no connection for UUID: " + callUUID);
         }
+    }
+
+    int size()
+    {
+        return connections.size();
+    }
+
+    public List<ConnectionImpl> getAll()
+    {
+        return new ArrayList<ConnectionImpl>(connections.values());
     }
 }
