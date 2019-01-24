@@ -22,6 +22,8 @@
 #import <React/RCTLinkingManager.h>
 #import <React/RCTRootView.h>
 
+#import <RNGoogleSignin/RNGoogleSignin.h>
+
 #import "Dropbox.h"
 #import "JitsiMeetView+Private.h"
 #import "RCTBridgeWrapper.h"
@@ -141,6 +143,13 @@ static NSMapTable<NSString *, JitsiMeetView *> *views;
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     if ([Dropbox application:app openURL:url options:options]) {
+        return YES;
+    }
+
+    if ([RNGoogleSignin application:app
+                            openURL:url
+                  sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                         annotation:options[UIApplicationOpenURLOptionsAnnotationKey]]) {
         return YES;
     }
 
